@@ -10,5 +10,4 @@ aws ec2 run-instances \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance},{Key=Environment,Value=Production}]" \
     --query 'Instances[0].PrivateIpAddress' \
     --output text
-
 done
