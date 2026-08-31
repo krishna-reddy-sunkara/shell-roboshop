@@ -8,7 +8,7 @@ aws ec2 run-instances \
     --instance-type t3.micro \
     --security-group-ids $SG_ID \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance},{Key=Environment,Value=Production}]" \
-    --query 'instances[0]".PrivateIpAddress' \
+    --query 'instances[0].PrivateIpAddress' \
     --output text
 
 done
