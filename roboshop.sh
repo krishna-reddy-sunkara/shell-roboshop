@@ -9,5 +9,19 @@ aws ec2 run-instances \
     --security-group-ids $SG_ID \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance},{Key=Environment,Value=Production}]" \
     --query 'Instances[0].PrivateIpAddress' \
-    --output text
+    --output text 
+    if [ $INSTANCE == "frontend" ]; then
+    IP=$(
+        aws ec2 describe-instances \
+    --instance-ids $INSTANCE_ID \
+    --query "Reservations[*].Instances[*].PrivateIpAddress" \
+    --output text )
+    else
+
+        IP=$( aws ec2 describe-instances \
+    --instance-ids  $INSTANCE_ID \
+    --query "Reservations[*].Instances[*].PrivateIpAddress" \
+    --output text )
+
+   fi
 done
