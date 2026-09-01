@@ -23,9 +23,9 @@ aws ec2 run-instances \
     else
 
         IP=$( aws ec2 describe-instances \
-    --instance-ids  $INSTANCE_ID \
-    --query "Reservations[*].Instances[*].PrivateIpAddress" \
-    --output text )
+     --instance-ids  $INSTANCE_ID \
+     --query "Reservations[*].Instances[*].PrivateIpAddress" \
+     --output text )
         $RECORD_NAME="$INSTANCE.$DOMAIN_NAME" #mongodb.daws-92s.store
 
    fi
