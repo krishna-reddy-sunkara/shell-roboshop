@@ -1,59 +1,63 @@
 #!/bin/bash
+
+SG_ID="sg-0027bf26309cfab1a" # replace with your ID
 AMI_ID="ami-0220d79f3f480ecf5"
-SG_ID="sg-0027bf26309cfab1a"
-INS_TYPE="t3.micro"
 ZONE_ID="Z00617561PSXR6GVLL7IW"
 DOMAIN_NAME="daws-92s.store"
 
-for INSTANCE in $@
+for instance in $@
 do
-aws ec2 run-instances \
+    INSTANCE_ID=$( aws ec2 run-instances \
     --image-id $AMI_ID \
-    --instance-type $INS_TYPE \
+    --instance-type "t3.micro" \
     --security-group-ids $SG_ID \
-    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$INSTANCE}]" \
-    --query 'Instances[0].PrivateIpAddress' \
-    --output text
+    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" \
+    --query 'Instances[0].InstanceId' \
+    --output text )
 
-    if [ $INSTANCE_ID=="frontend" ]; then
-        
-        IP=$(aws ec2 describe-instances\
-        --instance-ids $INSTANCE_ID \
-        --query 'Reservations[].Instances[].PublicIpAddress'\
-        --output text)
-        RECORD_NAME="$DOMAIN_NAME" #recordname of frontend
+    if [ $instance == "frontend" ]; then
+        IP=$(
+            aws ec2 describe-instances \
+            --instance-ids $INSTANCE_ID \
+            --query 'Reservations[].Instances[].PublicIpAddress' \
+            --output text
+        )
+        RECORD_NAME="$DOMAIN_NAME" # daws-92s.store
+    else
+        IP=$(
+            aws ec2 describe-instances \
+            --instance-ids $INSTANCE_ID \
+            --query 'Reservations[].Instances[].PrivateIpAddress' \
+            --output text
+        )
+        RECORD_NAME="$instance.$DOMAIN_NAME" # mongodb.daws-92s.store
+    fi
 
-        else 
-        IP=$(aws ec2 describe-instances\
-        --instance-ids $INSTANCE_ID \
-        --query 'Reservations[].Instances[].privateIpAddress'\
-        --output text)
-        RECORD_NAME="$INSTANCE.$DOMAIN_NAME"
-        fi 
+    echo "IP Address: $IP"
 
-
-        aws route53 change-resource-record-sets\
-        --hosted-zone-id $ZONE_ID\
-        --change-batch '{
-  "Comment": "Updating the IP address for my domain",
-  "Changes": [
+    aws route53 change-resource-record-sets \
+    --hosted-zone-id $ZONE_ID \
+    --change-batch '
     {
-      "Action": "UPSERT",
-      "ResourceRecordSet": {
-        "Name": "'$RECORD_NAME'",
-        "Type": "A",
-        "TTL": 1,
-        "ResourceRecords": [
-          {
-            "Value": "'$IP'"
-          }
+        "Comment": "Updating record",
+        "Changes": [
+            {
+            "Action": "UPSERT",
+            "ResourceRecordSet": {
+                "Name": "'$RECORD_NAME'",
+                "Type": "A",
+                "TTL": 1,
+                "ResourceRecords": [
+                {
+                    "Value": "'$IP'"
+                }
+                ]
+            }
+            }
         ]
-      }
     }
-  ]
-        
-}
- '
+    '
 
+    echo "record updated for $instance"
 
 done
