@@ -9,7 +9,20 @@ aws ec2 run-instances \
     --image-id $AMI_ID \
     --instance-type $INS_TYPE \
     --security-group-ids $SG_ID \
-    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=mongodb}]' \
+    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=$instance}]' \
     --query 'Instances[0].PrivateIpAddress' \
     --output text
+
+    if [ $instanceid == "frontend" ]; then
+        
+        IP=$(aws ec2 describe-instances\
+        --instance-ids $instance_id \
+        --query 'Reservations[*].Instances[*].PublicIpAddress'\
+        --output text)
+        
+        else 
+        IP=$((aws ec2 describe-instances\
+        --instance-ids $instance_id \
+        --query 'Reservations[*].Instances[*].privateIpAddress'\
+        --output text))
 done
