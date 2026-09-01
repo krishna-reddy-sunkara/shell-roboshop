@@ -17,15 +17,21 @@ VALIDATE(){
     echo " $2 .... success " | tee -a $LOGS_FILE
     fi
 }   
-dnf module disable nodejs -y
+mkdir -p $LOGS_FOLDER
+dnf module disable nodejs -y &>>$LOGS_FILE
 VALIDATE $? "diabling nodejs"
-dnf module enable nodejs:20 -y
+
+dnf module enable nodejs:20 -y &>>$LOGS_FILE
 VALIDATE $? "Enabling nodejs"
-dnf install nodejs -y
+
+dnf install nodejs -y &>>$LOGS_FILE
 VALIDATE $? "Installing nodejs"
+
 useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
 VALIDATE $? "creating system user"
+
 mkdir /app 
 VALIDATE $? "Creating directory"
+
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip 
 VALIDATE $? "downloeading code"
