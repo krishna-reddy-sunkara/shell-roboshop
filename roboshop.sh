@@ -22,7 +22,6 @@ aws ec2 run-instances \
     --instance-ids  $INSTANCE_ID \
     --query "Reservations[*].Instances[*].PrivateIpAddress" \
     --output text )
-
    fi
    echo " IP address : $IP "
 done
