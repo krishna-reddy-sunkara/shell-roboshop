@@ -48,11 +48,13 @@ VALIDATE $? "unzing the code"
 
 npm install 
 VALIDATE $? "downloeading dependency"
+
 cp catalogue.service /etc/systemd/system/catalogue.service
 VALIDATE $? " copying files"
  
  systemctl daemon-reload
  VALIDATE $? "Deamon reloeading"
+ 
  systemctl enable catalogue 
 systemctl start catalogue
 VALIDATE $? "Enabling and starting catalogue"
