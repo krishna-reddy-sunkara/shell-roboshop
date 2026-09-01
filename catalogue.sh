@@ -8,7 +8,7 @@ LOGS_FILE="LOGS_FLODER/$0.log"
    echo " please run this script with sudo user " | tee -a $LOGS_FILE
      exit 1
   fi 
-    mkdir -p $LOGS_FOLDER
+   
 VALIDATE(){
     if [ $? -ne 0 ]; then
     echo " $2 .... failure " | tee -a $LOGS_FILE
