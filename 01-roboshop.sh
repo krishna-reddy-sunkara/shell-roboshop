@@ -5,7 +5,7 @@ INS_TYPE="t3.micro"
 ZONE_ID="Z00617561PSXR6GVLL7IW"
 DOMAIN_NAME="daws-92s.store"
 
-for instance in $@
+for INSTANCE in $@
 do
 aws ec2 run-instances \
     --image-id $AMI_ID \
@@ -47,11 +47,12 @@ aws ec2 run-instances \
           {
             "Value": "'$IP'"
           }
-              ]
+        ]
       }
     }
-             ]
-                        }
+  ]
+        
+}
  '
 
 
