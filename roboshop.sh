@@ -10,11 +10,11 @@ aws ec2 run-instances \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance},{Key=Environment,Value=Production}]" \
     --query 'Instances[0].PrivateIpAddress' \
     --output text 
-    if [ $INSTANCE == "frontend" ]; then
+    if [ $INSTANCE=="frontend" ]; then
     IP=$(
         aws ec2 describe-instances \
     --instance-ids $INSTANCE_ID \
-    --query "Reservations[*].Instances[*].PrivateIpAddress" \
+    --query "Reservations[*].Instances[*].publicIpAddress" \
     --output text )
     else
 
@@ -24,4 +24,5 @@ aws ec2 run-instances \
     --output text )
 
    fi
+   echo " IP address : $IP "
 done
