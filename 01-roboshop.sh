@@ -57,4 +57,4 @@ aws ec2 run-instances \
 
 
 done
-echo " record updated for $INSTANCE "
+echo " record updated for $INSTANCE_ID "
