@@ -24,7 +24,7 @@ VALIDATE $? "diabling nodejs"
 dnf module enable nodejs:20 -y 
 VALIDATE $? "Enabling nodejs"
 
-dnf install nodejs -y &>>$LOGS_FILE
+dnf install nodejs -y 
 VALIDATE $? "Installing nodejs"
 
 id roboshop &>>LOGS_FILE
