@@ -33,7 +33,7 @@ aws ec2 run-instances \
 
 
         aws route53 change-resource-record-sets  
-        --hosted-zone-id $ZONE_ID 
+        --hosted -zone-id $ZONE_ID 
         --change-batch '{
   "Comment": "Updating the IP address for my domain",
   "Changes": [
