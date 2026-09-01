@@ -9,7 +9,7 @@ aws ec2 run-instances \
     --image-id $AMI_ID \
     --instance-type $INS_TYPE \
     --security-group-ids $SG_ID \
-    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=$instance}]' \
+    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=mongodb}]' \
     --query 'Instances[0].PrivateIpAddress' \
     --output text
 
