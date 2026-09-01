@@ -19,10 +19,11 @@ aws ec2 run-instances \
         --instance-ids $instance_id \
         --query 'Reservations[*].Instances[*].PublicIpAddress'\
         --output text)
-        
+
         else 
         IP=$((aws ec2 describe-instances\
         --instance-ids $instance_id \
         --query 'Reservations[*].Instances[*].privateIpAddress'\
         --output text))
+        fi
 done
