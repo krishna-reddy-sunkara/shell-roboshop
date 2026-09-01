@@ -13,7 +13,7 @@ aws ec2 run-instances \
     --query 'Instances[0].PrivateIpAddress' \
     --output text
 
-    if [ $instanceid == "frontend" ]; then
+    if [ $instanceid=="frontend" ]; then
         
         IP=$(aws ec2 describe-instances\
         --instance-ids $instance_id \
@@ -21,9 +21,9 @@ aws ec2 run-instances \
         --output text)
 
         else 
-        IP=$((aws ec2 describe-instances\
+        IP=$(aws ec2 describe-instances\
         --instance-ids $instance_id \
         --query 'Reservations[*].Instances[*].privateIpAddress'\
-        --output text))
+        --output text)
         fi
 done
