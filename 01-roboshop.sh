@@ -26,5 +26,6 @@ aws ec2 run-instances \
         --query 'Reservations[*].Instances[*].privateIpAddress'\
         --output text)
         fi
+        
         echo " privateip : $IP "
 done
