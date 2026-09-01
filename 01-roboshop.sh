@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SG_ID="sg-0027bf26309cfab1a" # replace with your ID
+SG_ID="sg-076ec9ad23dab2b28" # replace with your ID
 AMI_ID="ami-0220d79f3f480ecf5"
 ZONE_ID="Z00617561PSXR6GVLL7IW"
 DOMAIN_NAME="daws-92s.store"
@@ -22,7 +22,7 @@ do
             --query 'Reservations[].Instances[].PublicIpAddress' \
             --output text
         )
-        RECORD_NAME="$DOMAIN_NAME" # daws-92s.store
+        RECORD_NAME="$DOMAIN_NAME" # daws88s.online
     else
         IP=$(
             aws ec2 describe-instances \
@@ -30,7 +30,7 @@ do
             --query 'Reservations[].Instances[].PrivateIpAddress' \
             --output text
         )
-        RECORD_NAME="$instance.$DOMAIN_NAME" # mongodb.daws-92s.store
+        RECORD_NAME="$instance.$DOMAIN_NAME" # mongodb.daws88s.online
     fi
 
     echo "IP Address: $IP"
