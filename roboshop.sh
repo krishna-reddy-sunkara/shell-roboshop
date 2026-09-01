@@ -19,7 +19,7 @@ aws ec2 run-instances \
     --instance-ids $INSTANCE_ID \
     --query "Reservations[*].Instances[*].publicIpAddress" \
     --output text )
-    $RECORD_NAME="$INSTANCE.$DOMAIN_NAME" #.daws-92s.store
+    $RECORD_NAME="$INSTANCE_ID.$DOMAIN_NAME" #.daws-92s.store
     else
 
         IP=$( aws ec2 describe-instances \
