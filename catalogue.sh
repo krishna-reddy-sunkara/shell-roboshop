@@ -17,7 +17,7 @@ VALIDATE(){
     echo " $2 .... success " | tee -a $LOGS_FILE
     fi
 }   
-mkdir -p $LOGS_FOLDER
+
 dnf module disable nodejs -y &>>$LOGS_FILE
 VALIDATE $? "diabling nodejs"
 
