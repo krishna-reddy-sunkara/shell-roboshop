@@ -41,4 +41,24 @@ VALIDATE(){
     curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip 
     VALIDATE $? "Downlpeading code"
 
-     
+     cd /app 
+     VALIDATE $? "Moving app directory"
+
+     unzip /tmp/catalogue.zip
+     VALIDATE $? "unzing the code"
+
+     npm install 
+     VALIDATE $? "downloeading depencies" 
+
+     cp catalogue.service /etc/systemd/system/catalogue.service
+     VALIDATE $? "coping catalogue.service to catalogue"
+
+     systemctl daemon-reload
+     VALIDATE $? "demon reloading"
+
+     systemctl enable catalogue 
+     VALIDATE $? "Enabling catalogue"
+    
+    systemctl start catalogue
+    VALIDATE $? "starting catalogue"
+    
