@@ -17,10 +17,13 @@ VALIDATE(){
     echo " $2 .... success " | tee -a $LOGS_FILE
     fi
 }   
-    dnf module disable nodejs -y
+    dnf module disable nodejs -y &>>$LOGS_FILE
     VALIDATE $? "disabling nodejs"
 
-    dnf install nodejs -y
+    dnf module enable nodejs:20 -y
+    VALIDATE $? "Enabling nodejs"
+
+    dnf install nodejs -y &>>$LOGS_FILE
     VALIDATE $? "installing nodejs"
 
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
@@ -32,4 +35,4 @@ VALIDATE(){
     curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip 
     VALIDATE $? "Downlpeading code"
 
-    
+     
