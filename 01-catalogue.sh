@@ -63,6 +63,6 @@ VALIDATE(){
      systemctl enable catalogue 
      VALIDATE $? "Enabling catalogue"
     
-     systemctl restart catalogue
+     systemctl start catalogue
      VALIDATE $? "starting catalogue"
 
