@@ -71,3 +71,6 @@ id roboshop
      systemctl enable shipping
      systemctl start shipping
      VALIDATE $? "Enabling and start shipping"
+
+     systemctl restart shipping
+     VALIDATE $? "restarting shipping"
