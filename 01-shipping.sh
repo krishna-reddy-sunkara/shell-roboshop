@@ -64,13 +64,13 @@ id roboshop
      dnf install mysql -y 
      VALIDATE $? "installing mysql service"
 
+      systemctl enable shipping
+     systemctl start shipping
+     VALIDATE $? "Enabling and start shipping"
+
      mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql
      mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql 
      mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql
-
-     systemctl enable shipping
-     systemctl start shipping
-     VALIDATE $? "Enabling and start shipping"
 
      systemctl restart shipping
      VALIDATE $? "restarting shipping"
