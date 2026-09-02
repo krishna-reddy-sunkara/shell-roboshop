@@ -28,4 +28,4 @@ systemctl start mysqld
 VALIDATE $? "enabling and diabling"
 
 mysql_secure_installation --set-root-pass RoboShop@1
-VALIDATE $? ""
+VALIDATE $? "set the root password"
