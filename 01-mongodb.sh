@@ -10,14 +10,14 @@ LOGS_FILE="$LOGS_FOLDER/$0.log"
   fi 
     mkdir -p $LOGS_FOLDER
 VALIDATE(){
-    if [ $? -ne 0 ]; then
+    if [ $1 -ne 0 ]; then
     echo " $2 .... failure " | tee -a $LOGS_FILE
     exit 1
     else 
     echo " $2 .... success " | tee -a $LOGS_FILE
     fi
 }   
-    mkdir -p $LOGS_FOLDER
+    
 
     cp mongo.repo /etc/yum.repos.d/mongo.repo
     VALIDATE $? "coping mongo.repo "
