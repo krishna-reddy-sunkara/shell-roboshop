@@ -3,7 +3,7 @@
 USERID=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 LOGS_FILE="$LOGS_FOLDER/$0.log"
-SCRIPT_DIR=PWD
+SCRIPT_DIR=$PWD
 MONGODB_HOST="mongodb.daws-92s.store"
 
   if [ $USERID -ne 0 ]; then
@@ -55,7 +55,7 @@ VALIDATE(){
      npm install 
      VALIDATE $? "downloeading depencies" 
 
-     cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
+     cp /catalogue.service /etc/systemd/system/catalogue.service
      VALIDATE $? "coping catalogue.service to catalogue"
 
      systemctl daemon-reload
