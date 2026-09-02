@@ -61,3 +61,4 @@ VALIDATE(){
     
      systemctl start catalogue
      VALIDATE $? "starting catalogue"
+
