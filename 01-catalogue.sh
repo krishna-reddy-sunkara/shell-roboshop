@@ -59,6 +59,5 @@ VALIDATE(){
      systemctl enable catalogue 
      VALIDATE $? "Enabling catalogue"
     
-    systemctl start catalogue
-    VALIDATE $? "starting catalogue"
-    
+     systemctl start catalogue
+     VALIDATE $? "starting catalogue"
