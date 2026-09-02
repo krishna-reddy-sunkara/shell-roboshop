@@ -46,6 +46,7 @@ VALIDATE(){
 
      rm -rf /app/*
      VALIDATE $? "romoving data from app"
+
      unzip /tmp/catalogue.zip
      VALIDATE $? "unzing the code"
 
@@ -61,6 +62,6 @@ VALIDATE(){
      systemctl enable catalogue 
      VALIDATE $? "Enabling catalogue"
     
-     systemctl start catalogue
+     systemctl restart catalogue
      VALIDATE $? "starting catalogue"
 
