@@ -73,8 +73,18 @@ VALIDATE(){
      dnf install mongodb-mongosh -y
      VALIDATE $? "installing mongodb"
 
+    INDEX$(mongosh --host $MONGODB_HOST --quiet  --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
+    if [ $INDEX -lt 0 ]; then
      mongosh --host $MONGODB_HOST </app/db/master-data.js
-
+     VALIDATE $? "products are loading"
+     else
+     echo "products are loaded.skipping"
+     fi
+     systemctl restart catalogue
+     VALIDATE $? "Restarting catalogue"
      
+
+
+
 
 
