@@ -53,6 +53,14 @@ VALIDATE(){
      VALIDATE $? "unzing the code"
 
      npm install 
-     VALIDATE $? "downloeading depencies" 
-    
-    
+     VALIDATE $? "downloeading depencies"
+
+     cp cart.service/ etc/systemd/system/cart.service
+     VALIDATE $? "copying services"
+     
+     systemctl daemon-reload
+     VALIDATE $? "daemon realoading"
+
+     systemctl enable cart 
+     systemctl start cart
+     VALIDATE $? "enabling and starting cart"
