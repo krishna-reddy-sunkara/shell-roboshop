@@ -34,6 +34,5 @@ VALIDATE $? "starting mongodb"
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 VALIDATE $? "allowing remote connections"
  
-systemctl reststart mongod
+systemctl restart mongod
 VALIDATE $? "restarting mongodb"
- 
