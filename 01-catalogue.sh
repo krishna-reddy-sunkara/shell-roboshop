@@ -4,6 +4,7 @@ USERID=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 LOGS_FILE="$LOGS_FOLDER/$0.log"
 SCRIPT_DIR=$PWD
+MONGODB_HOST="mongodb.daws-92s.store"
 
   if [ $USERID -ne 0 ]; then
    echo " please run this script with sudo user " | tee -a $LOGS_FILE
@@ -64,5 +65,14 @@ VALIDATE(){
      VALIDATE $? "Enabling catalogue"
     
      systemctl start catalogue
-     VALIDATE $? "starting catalogue"
+     VALIDATE $? "starting catalogue" 
+
+     CP $SECIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
+     VALIDATE $? "copying mongo.repo into catalogue"
+
+     dnf install mongodb-mongosh -y
+     VALIDATE $? "installing mongodb"
+
+     mongosh --host $MONGODB_HOST </app/db/master-data.js
+
 
