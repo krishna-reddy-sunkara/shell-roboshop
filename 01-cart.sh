@@ -55,7 +55,7 @@ VALIDATE(){
      npm install 
      VALIDATE $? "downloeading depencies"
 
-     cp cart.service /etc/systemd/system/cart.service
+     cp $SCRIPT_DIR/cart.service /etc/systemd/system/cart.service
      VALIDATE $? "copying services"
      
      systemctl daemon-reload
