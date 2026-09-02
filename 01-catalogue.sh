@@ -55,7 +55,7 @@ VALIDATE(){
      npm install 
      VALIDATE $? "downloeading depencies" 
 
-     cp /home/ec2-user/shell-roboshop/catalogue.service /etc/systemd/system/catalogue.service
+     cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
      VALIDATE $? "coping catalogue.service to catalogue"
 
      systemctl daemon-reload
