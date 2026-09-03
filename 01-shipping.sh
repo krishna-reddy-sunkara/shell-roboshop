@@ -54,7 +54,7 @@ id roboshop
      mv target/shipping-1.0.jar shipping.jar 
      VALIDATE $? "Moving and renaming"
 
-     cp SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service
+     cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service
      VALIDATE $? "Copying shipping service"
 
      systemctl daemon-reload
