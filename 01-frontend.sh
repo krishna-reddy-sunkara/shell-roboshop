@@ -27,7 +27,7 @@ VALIDATE(){
 
  systemctl enable nginx 
  VALIDATE $? "enabling nginx"
- 
+
  systemctl start nginx 
  VALIDATE $? "Enabling and starting the nginx"
 
@@ -45,6 +45,6 @@ rm -rf /etc/nginx/nginx.conf
 
 cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf
 
-systemctl restart nginx 
+systemctl start nginx 
 VALIDATE $? "restarting nginx"
 
