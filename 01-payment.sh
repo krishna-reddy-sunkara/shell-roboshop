@@ -23,8 +23,13 @@ VALIDATE(){
 dnf install python3 gcc python3-devel -y
 VALIDATE $? "installing paython "
 
+id roboshop
+if [ $? -ne o ]; then
+
 useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
 VALIDATE $? "creating system user"
+else 
+echo "user already exit ... skipping"
 
 mkdir -p /app 
 VALIDATE $? "creating app folder"
