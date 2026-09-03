@@ -26,6 +26,8 @@ VALIDATE(){
  VALIDATE $? "diabling enabling the nginx and installing nginx"
 
  systemctl enable nginx 
+ VALIDATE $? "enabling nginx"
+ 
  systemctl start nginx 
  VALIDATE $? "Enabling and starting the nginx"
 
