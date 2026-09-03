@@ -3,36 +3,37 @@
 USERID=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 LOGS_FILE="$LOGS_FOLDER/$0.log"
-SCRIPT_DIR=$PWD
-MONGODB_HOST="mongodb.daws-92s.store"
+R="\e[31m"
+G="\e[32m"
+Y="\e[33m"
+N="\e[0m"
 
-  if [ $USERID -ne 0 ]; then
-   echo " please run this script with sudo user " | tee -a $LOGS_FILE
-     exit 1
-  fi 
-    mkdir -p $LOGS_FOLDER
+if [ $USERID -ne 0 ]; then
+    echo -e "$R Please run this script with root user access $N" | tee -a $LOGS_FILE
+    exit 1
+fi
+
+mkdir -p $LOGS_FOLDER
+
 VALIDATE(){
     if [ $1 -ne 0 ]; then
-    echo " $2 .... failure " | tee -a $LOGS_FILE
-    exit 1
-    else 
-    echo " $2 .... success " | tee -a $LOGS_FILE
+        echo -e "$2 ... $R FAILURE $N" | tee -a $LOGS_FILE
+        exit 1
+    else
+        echo -e "$2 ... $G SUCCESS $N" | tee -a $LOGS_FILE
     fi
-}   
-dnf module disable redis -y
-VALIDATE $? "disabling redis"
+}
 
-dnf module enable redis:7 -y
-VALIDATE $? "enabling redis"
+dnf module disable redis -y &>>$LOGS_FILE
+dnf module enable redis:7 -y &>>$LOGS_FILE
+VALIDATE $? "Enable Redis:7"
 
-dnf install redis -y 
-VALIDATE $? "Installing redis"
+dnf install redis -y  &>>$LOGS_FILE
+VALIDATE $? "Installed Redis"
 
 sed -i -e 's/127.0.0.1/0.0.0.0/g' -e '/protected-mode/ c protected-mode no' /etc/redis/redis.conf
-VALIDATE $? "allowing remote connections"
+VALIDATE $? "Allowing remote connections"
 
-systemctl enable redis 
+systemctl enable redis &>>$LOGS_FILE
 systemctl start redis 
-VALIDATE $? "enabling and starting redis"
-
-
+VALIDATE $? "Enabled and started Redis"
