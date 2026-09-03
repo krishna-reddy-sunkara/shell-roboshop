@@ -4,7 +4,7 @@
 USERID=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 LOGS_FILE="$LOGS_FOLDER/$0.log"
-SCRIPT_DIR=$PWD
+SCRIPT_DIR="$PWD"
 
   if [ $USERID -ne 0 ]; then
    echo " please run this script with sudo user " | tee -a $LOGS_FILE
