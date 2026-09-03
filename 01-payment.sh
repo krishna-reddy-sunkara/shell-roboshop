@@ -32,21 +32,28 @@ else
 echo "user already exit ... skipping"
 fi
 
+dnf install python3 gcc python3-devel -y &>>$LOGS_FILE
+VALIDATE $? "Installing Python"
+
+id roboshop &>>$LOGS_FILE
+if [ $? -ne 0 ]; then
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOGS_FILE
+    VALIDATE $? "Creating system user"
+else
+    echo -e "Roboshop user already exist ... $Y SKIPPING $N"
+fi
+
 mkdir -p /app 
-VALIDATE $? "creating app folder"
+VALIDATE $? "Creating app directory"
 
-curl -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip
-VALIDATE $? "Downlpeading code"
+curl -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip  &>>$LOGS_FILE
+VALIDATE $? "Downloading payment code"
 
-cd /app 
-VALIDATE $? "Moving app directory"
+cd /app
+VALIDATE $? "Moving to app directory"
 
 rm -rf /app/*
-VALIDATE $? "romoving data from app"
-
-unzip /tmp/payment.zip
-VALIDATE $? "unzing the code"
-
+VALIDATE $? "Removing existing code"
 
 unzip /tmp/payment.zip &>>$LOGS_FILE
 VALIDATE $? "Uzip payment code"
@@ -57,6 +64,7 @@ VALIDATE $? "Installing dependencies"
 
 cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service
 VALIDATE $? "Created systemctl service"
+
 systemctl daemon-reload
 systemctl enable payment &>>$LOGS_FILE
 systemctl start payment
