@@ -4,7 +4,7 @@ USERID=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 LOGS_FILE="$LOGS_FOLDER/$0.log"
 SCRIPT_DIR=$PWD
-MONGODB_HOST="mongodb.daws-92s.store"
+MYSQL_HOST="mysql.daws-92s.store"
 
   if [ $USERID -ne 0 ]; then
    echo " please run this script with sudo user " | tee -a $LOGS_FILE
