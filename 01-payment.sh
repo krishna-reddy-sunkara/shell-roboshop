@@ -38,7 +38,7 @@ VALIDATE $? "creating app folder"
 curl -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zi
 VALIDATE $? "Downlpeading code"
 
-cd -p /app 
+cd /app 
 VALIDATE $? "Moving app directory"
 
 rm -rf /app/*
@@ -47,11 +47,6 @@ VALIDATE $? "romoving data from app"
 unzip /tmp/payment.zip
 VALIDATE $? "unzing the code"
 
-cd /app
-VALIDATE $? "Moving to app directory"
-
-rm -rf /app/*
-VALIDATE $? "Removing existing code"
 
 unzip /tmp/payment.zip &>>$LOGS_FILE
 VALIDATE $? "Uzip payment code"
