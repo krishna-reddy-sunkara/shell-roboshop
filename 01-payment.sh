@@ -30,6 +30,7 @@ useradd --system --home /app --shell /sbin/nologin --comment "roboshop system us
 VALIDATE $? "creating system user"
 else 
 echo "user already exit ... skipping"
+fi
 
 mkdir -p /app 
 VALIDATE $? "creating app folder"
