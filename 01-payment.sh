@@ -35,7 +35,7 @@ fi
 mkdir -p /app 
 VALIDATE $? "creating app folder"
 
-curl -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zi
+curl -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip
 VALIDATE $? "Downlpeading code"
 
 cd /app 
