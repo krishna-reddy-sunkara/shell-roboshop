@@ -41,18 +41,23 @@ VALIDATE $? "romoving data from app"
 unzip /tmp/payment.zip
 VALIDATE $? "unzing the code"
 
+cd /app
+VALIDATE $? "Moving to app directory"
+
+rm -rf /app/*
+VALIDATE $? "Removing existing code"
+
+unzip /tmp/payment.zip &>>$LOGS_FILE
+VALIDATE $? "Uzip payment code"
+
 cd /app 
-pip3 install -r requirements.txt
-VALIDATE $? "change to app directory"
+pip3 install -r requirements.txt &>>$LOGS_FILE
+VALIDATE $? "Installing dependencies"
 
 cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service
-VALIDATE $? "Copying payment.service to payment"
+VALIDATE $? "Created systemctl service"
 
 systemctl daemon-reload
-VALIDATE $? "Deamon reloaded"
-
-systemctl enable payment 
+systemctl enable payment &>>$LOGS_FILE
 systemctl start payment
-VALIDATE $? "enabling and starting payment"
-
-
+VALIDATE $? "Enabled and started payment"
