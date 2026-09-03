@@ -65,4 +65,4 @@ VALIDATE $? "Created systemctl service"
 systemctl daemon-reload
 systemctl enable payment &>>$LOGS_FILE
 systemctl start payment
-VALIDATE $? "Enabled and started payment"
+VALIDATE $? " Enabled and started payment "
