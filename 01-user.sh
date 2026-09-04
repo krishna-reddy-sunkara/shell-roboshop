@@ -3,67 +3,69 @@
 USERID=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 LOGS_FILE="$LOGS_FOLDER/$0.log"
+R="\e[31m"
+G="\e[32m"
+Y="\e[33m"
+N="\e[0m"
 SCRIPT_DIR=$PWD
-MONGODB_HOST="mongodb.daws-92s.store"
+MONGODB_HOST=mongodb.daws88s.online
 
-  if [ $USERID -ne 0 ]; then
-   echo " please run this script with sudo user " | tee -a $LOGS_FILE
-     exit 1
-  fi 
-    mkdir -p $LOGS_FOLDER
+if [ $USERID -ne 0 ]; then
+    echo -e "$R Please run this script with root user access $N" | tee -a $LOGS_FILE
+    exit 1
+fi
+
+mkdir -p $LOGS_FOLDER
+
 VALIDATE(){
     if [ $1 -ne 0 ]; then
-    echo " $2 .... failure " | tee -a $LOGS_FILE
-    exit 1
-    else 
-    echo " $2 .... success " | tee -a $LOGS_FILE
+        echo -e "$2 ... $R FAILURE $N" | tee -a $LOGS_FILE
+        exit 1
+    else
+        echo -e "$2 ... $G SUCCESS $N" | tee -a $LOGS_FILE
     fi
-}   
-    dnf module disable nodejs -y &>>$LOGS_FILE
-    VALIDATE $? "disabling nodejs"
+}
 
-    dnf module enable nodejs:20 -y &>>$LOGS_FILE
-    VALIDATE $? "Enabling nodejs"
+dnf module disable nodejs -y &>>$LOGS_FILE
+VALIDATE $? "Disabling NodeJS Default version"
 
-    dnf install nodejs -y &>>$LOGS_FILE
-    VALIDATE $? "installing nodejs"
+dnf module enable nodejs:20 -y &>>$LOGS_FILE
+VALIDATE $? "Enabling NodeJS 20"
 
-    id roboshop
-    if [ $? -ne 0 ]; then
-         useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOGS_FILE
-        VALIDATE $? "Creating system user"
+dnf install nodejs -y &>>$LOGS_FILE
+VALIDATE $? "Install NodeJS"
 
-   else 
-         echo "user already exits .... skipping "
-   fi
+id roboshop &>>$LOGS_FILE
+if [ $? -ne 0 ]; then
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOGS_FILE
+    VALIDATE $? "Creating system user"
+else
+    echo -e "Roboshop user already exist ... $Y SKIPPING $N"
+fi
 
-    mkdir -p /app 
-    VALIDATE $? "creating app folder"
+mkdir -p /app 
+VALIDATE $? "Creating app directory"
 
-    curl -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip 
-    VALIDATE $? "Downlpeading code"
+curl -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip  &>>$LOGS_FILE
+VALIDATE $? "Downloading user code"
 
-     cd /app 
-     VALIDATE $? "Moving app directory"
+cd /app
+VALIDATE $? "Moving to app directory"
 
-     rm -rf /app/*
-     VALIDATE $? "romoving data from app"
+rm -rf /app/*
+VALIDATE $? "Removing existing code"
 
-     unzip /tmp/user.zip
-     VALIDATE $? "unzing the code"
+unzip /tmp/user.zip &>>$LOGS_FILE
+VALIDATE $? "Uzip user code"
 
-     npm install 
-     VALIDATE $? "downloeading depencies" 
+npm install  &>>$LOGS_FILE
+VALIDATE $? "Installing dependencies"
 
-     cp $SCRIPT_DIR/user.service /etc/systemd/system/user.service
-     VALIDATE $? "coping user.service to user"
+cp $SCRIPT_DIR/user.service /etc/systemd/system/user.service
+VALIDATE $? "Created systemctl service"
 
-     systemctl daemon-reload
-     VALIDATE $? "demon reloading"
-
-     systemctl enable user 
-     VALIDATE $? "Enabling user"
-    
-     systemctl start user
-     VALIDATE $? "starting user"
+systemctl daemon-reload
+systemctl enable user  &>>$LOGS_FILE
+systemctl start user
+VALIDATE $? "Starting and enabling user "
      
